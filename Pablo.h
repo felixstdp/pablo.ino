@@ -8,5 +8,8 @@ class Pablo {
     void reverse(int l, int r, int t);
     void rotate(int t);
     void brake(int t);
+    void march();
+  private:
+    void beep (unsigned char speakerPin, int frequencyInHertz, long timeInMiliseconds);
 };
 #endif

@@ -84,7 +84,7 @@ void Pablo::rotate(int t)
   delay(abs(t));
 }
 
-void beep (unsigned char speakerPin, int frequencyInHertz, long timeInMilliseconds)
+void Pablo::beep(unsigned char speakerPin, int frequencyInHertz, long timeInMilliseconds)
 {
   int x;
   long delayAmount = (long)(1000000/frequencyInHertz);

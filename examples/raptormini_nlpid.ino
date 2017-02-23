@@ -23,9 +23,8 @@ const float ki=0.001;
 const float kd=0.01;
 const float kv=0.1;
 int p,d,u,vbase;
-int i=0;
+long i=0;
 int p_old=0;
-
 
 void setup() {
   digitalWrite(STBY, HIGH); // disable standby

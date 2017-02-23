@@ -21,7 +21,7 @@ const int vmax=120;
 const float kp=.016;
 const float ki=0.001;
 const float kd=0.01;
-const float kv=0.1;
+const float kv=0.05;
 int p,d,u,vbase;
 long i=0;
 int p_old=0;
@@ -41,7 +41,7 @@ void loop()
   if ((p*i)<0) i=0;  // integral windup
 
   u=kp*p+ki*i+kd*d;
-  vbase=vmin+(vmax-vmin)*exp(-kv*u);
+  vbase=vmin+(vmax-vmin)*exp(-kv*abs(u));
   drive(vbase+u,vbase-u);
  
 }

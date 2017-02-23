@@ -57,30 +57,16 @@ void loop()
  
 }
 
-void drive(int L, int R)
+void drive(int L, int R) // speed for wheels Left and Right
 {
   L=L+(255-L)*(L>255)+(-255-L)*(L<-255); // avoid PWM overflow
   R=R+(255-R)*(R>255)+(-255-R)*(R<-255);
 
-  if (L>0)
-  {
-    digitalWrite(AIN1, LOW); // switch high for low if left wheel doesnt spin forward
-    digitalWrite(AIN2, HIGH);
-    analogWrite(PWMA, L);
-  } else {
-    digitalWrite(AIN1, HIGH); // switch high for low if left wheel doesnt spin backward
-    digitalWrite(AIN2, LOW);
-    analogWrite(PWMA, -L);
-  }  
-
-if (R>0)
-  {
-    digitalWrite(BIN1, LOW); // switch high for low if right wheel doesnt spin forward
-    digitalWrite(BIN2, HIGH);
-    analogWrite(PWMB, R);
-  } else {
-    digitalWrite(BIN1, HIGH); // switch high for low if right wheel doesnt spin backward
-    digitalWrite(BIN2, LOW);
-    analogWrite(PWMB, -R);
-  }  
+  digitalWrite(AIN1, L<0); // switch < for > if left wheel doesnt spin as expected
+  digitalWrite(AIN2, L>0);
+  analogWrite(PWMA, L*(L>=0)-L*(L<0));
+  
+  digitalWrite(BIN1, R<0); // switch < for > if left wheel doesnt spin as expected
+  digitalWrite(BIN2, R>0);
+  analogWrite(PWMA, R*(R>=0)-R*(R<0));
 }

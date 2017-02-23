@@ -2,13 +2,13 @@
 // Arduino Pro Micro, TB6612 driver, Pololu QTR-8 sensor
 
 // TB6612 driver pinout
-const int STBY = 15; //standby
-const int PWMA = 5; //Speed control motor A (left)
-const int AIN1 = 2; //Direction
-const int AIN2 = 3; //Direction
-const int PWMB = 10; //Speed control motor B (right)
-const int BIN1 = 14; //Direction
-const int BIN2 = 16; //Direction
+const int STBY = 15; // standby
+const int PWMA = 5; // speed and direction control motor A (left)
+const int AIN1 = 2;
+const int AIN2 = 3;
+const int PWMB = 10; // speed and direction control motor B (right)
+const int BIN1 = 14;
+const int BIN2 = 16;
 
 // Pololu QTR-8A analog array readout
 #include <QTRSensors.h>
@@ -28,7 +28,8 @@ int p_old=0;
 
 
 void setup() {
-  digitalWrite(STBY, HIGH); //disable standby
+  digitalWrite(STBY, HIGH); // disable standby
+  // Serial.begin(9600); 
 }
 
 void loop()
@@ -57,33 +58,30 @@ void loop()
  
 }
 
-void drive(int speedl, int speedr)
+void drive(int L, int R)
 {
- 
-  if (speedl>255) speedl=255;
-  if (speedl<-255) speedl=-255;
-  if (speedr>255) speedr=255;
-  if (speedr<-255) speedr=-255;
+  L=L+(255-L)*(L>255)+(-255-L)*(L<-255); // avoid PWM overflow
+  R=R+(255-R)*(R>255)+(-255-R)*(R<-255);
 
-  if (speedl>0)
+  if (L>0)
   {
     digitalWrite(AIN1, LOW); // switch high for low if left wheel doesnt spin forward
     digitalWrite(AIN2, HIGH);
-    analogWrite(PWMA, speedl);
+    analogWrite(PWMA, L);
   } else {
     digitalWrite(AIN1, HIGH); // switch high for low if left wheel doesnt spin backward
     digitalWrite(AIN2, LOW);
-    analogWrite(PWMA, -speedl);
+    analogWrite(PWMA, -L);
   }  
 
-if (speedr>0)
+if (R>0)
   {
     digitalWrite(BIN1, LOW); // switch high for low if right wheel doesnt spin forward
     digitalWrite(BIN2, HIGH);
-    analogWrite(PWMB, speedr);
+    analogWrite(PWMB, R);
   } else {
     digitalWrite(BIN1, HIGH); // switch high for low if right wheel doesnt spin backward
     digitalWrite(BIN2, LOW);
-    analogWrite(PWMB, -speedr);
+    analogWrite(PWMB, -R);
   }  
 }

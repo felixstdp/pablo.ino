@@ -28,24 +28,13 @@ int p_old=0;
 
 void setup() {
   digitalWrite(STBY, HIGH); // disable standby
-  // Serial.begin(9600); 
 }
 
 void loop()
 {
   qtra.read(IR); // read raw sensor values
-
-  /* uncomment to show sensor values via serial monitor
-  for (int i=0 ; i<8; i++)
-  {
-    Serial.print(IR[i]);
-    Serial.print(" ");
-  }
-  Serial.println();
-  */
   
   p = -4*IR[0]-3*IR[1]-2*IR[2]-IR[3]+IR[4]+2*IR[5]+3*IR[6]+4*IR[7];
-
   i=i+p;
   d=p-p_old;
   p_old=p;

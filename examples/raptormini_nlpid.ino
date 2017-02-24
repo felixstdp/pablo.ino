@@ -25,15 +25,15 @@ const float kv=0.05;
 int p,d,u,vbase;
 long i=0;
 int p_old=0;
+boolean on=HIGH;
 
 void setup() {
-  digitalWrite(STBY, HIGH); // disable standby
+
 }
 
 void loop()
 {
   qtra.read(IR); // read raw sensor values
-  
   p = -4*IR[0]-3*IR[1]-2*IR[2]-IR[3]+IR[4]+2*IR[5]+3*IR[6]+4*IR[7];
   i=i+p;
   d=p-p_old;
@@ -42,20 +42,21 @@ void loop()
 
   u=kp*p+ki*i+kd*d;
   vbase=vmin+(vmax-vmin)*exp(-kv*abs(u));
-  drive(vbase+u,vbase-u);
- 
+  
+  digitalWrite(STBY, on); // disable standby
+  drive(vbase+u,vbase-u); 
 }
 
 void drive(int L, int R) // speed for wheels Left and Right
 {
-  L=L+(255-L)*(L>255)+(-255-L)*(L<-255); // avoid PWM overflow
+  L=L+(255-L)*(L>255)+(-255-L)*(L<-255); // prevent PWM overflow
   R=R+(255-R)*(R>255)+(-255-R)*(R<-255);
 
-  digitalWrite(AIN1, L<0); // switch < for > if left wheel doesnt spin as expected
-  digitalWrite(AIN2, L>0);
+  digitalWrite(AIN1, L<0); // switch < and >= if left wheel doesnt spin as expected
+  digitalWrite(AIN2, L>=0);
   analogWrite(PWMA, L*(L>=0)-L*(L<0));
   
-  digitalWrite(BIN1, R<0); // switch < for > if left wheel doesnt spin as expected
-  digitalWrite(BIN2, R>0);
+  digitalWrite(BIN1, R<0); // switch < and >= if left wheel doesnt spin as expected
+  digitalWrite(BIN2, R>=0);
   analogWrite(PWMA, R*(R>=0)-R*(R<0));
 }

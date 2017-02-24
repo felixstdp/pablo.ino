@@ -1,4 +1,4 @@
-// followline PID algorithm for Bricolabs Raptor robot
+// followline non linear PID algorithm for Bricolabs Raptor robot
 // Arduino Pro Micro, TB6612 driver, Pololu QTR-8 sensor
 
 // TB6612 driver pinout

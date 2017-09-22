@@ -57,6 +57,7 @@ void drive(int L, int R) // speed for wheels Left and Right
 
   digitalWrite(AIN1, L<0); // switch < and >= if left wheel doesnt spin as expected
   digitalWrite(AIN2, L>=0);
+  //analogWrite(PWMA, abs(L));
   analogWrite(PWMA, L*(L>=0)-L*(L<0));
   
   digitalWrite(BIN1, R<0); // switch < and >= if left wheel doesnt spin as expected

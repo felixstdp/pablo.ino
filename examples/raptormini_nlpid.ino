@@ -49,6 +49,9 @@ void loop()
 
 void drive(int L, int R) // speed for wheels Left and Right
 {
+  //L=constrain (L, -255, 255); // prevent PWM overflow
+  //R=constrain (R, -255, 255);
+  
   L=L+(255-L)*(L>255)+(-255-L)*(L<-255); // prevent PWM overflow
   R=R+(255-R)*(R>255)+(-255-R)*(R<-255);
 

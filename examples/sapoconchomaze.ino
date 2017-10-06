@@ -18,9 +18,17 @@ void setup() {
 
   i2cconfig();
 
-  lox.begin(0x30)
-
   Serial.begin(9600);
+  
+    while (! Serial) {
+    delay(1);
+  }
+
+  if (!lox.begin()) {
+    Serial.println(F("Failed to boot VL53L0X"));
+    while(1);
+  }
+  
 }
 
 void loop() {
@@ -34,14 +42,7 @@ void loop() {
     Serial.print(lox[i]); Serial.print(" , ");
   }
 
-  while (! Serial) {
-    delay(1);
-  }
 
-  if (!lox.begin()) {
-    Serial.println(F("Failed to boot VL53L0X"));
-    while(1);
-  }
 
   Serial.println();
   

@@ -7,7 +7,7 @@ Adafruit_VL53L0X lox = Adafruit_VL53L0X();
 #define xshut3 8
 #define xshut4 16
 
-int lox[4];
+int dist[4];
 
 void setup() {
   
@@ -25,13 +25,17 @@ void setup() {
 
 void loop() {
 
-  lox[0]=lox.read(0x30);
-  lox[1]=lox.read(0x31);
-  lox[2]=lox.read(0x32);
-  lox[3]=lox.read(0x33);
+  dist[0]=lox.read(0x30); // revisar .read no es una funcion de la libreria
+  dist[1]=lox.read(0x31);
+  dist[2]=lox.read(0x32);
+  dist[3]=lox.read(0x33);
 
   for (int i=0; i<4; i++); {
     Serial.print(lox[i]); Serial.print(" , ");
+  }
+
+  while (! Serial) {
+    delay(1);
   }
 
   if (!lox.begin()) {
@@ -49,13 +53,13 @@ void i2cconfig() {
   digitalWrite(xshut2,LOW);
   digitalWrite(xshut3,LOW);
   digitalWrite(xshut4,LOW);
-
   delay(10);
 
   digitalWrite(xshut1,HIGH);
   digitalWrite(xshut2,HIGH);
   digitalWrite(xshut3,HIGH);
   digitalWrite(xshut4,HIGH);
+  delay(10);
   
   digitalWrite(xshut1,HIGH);
   digitalWrite(xshut2,LOW);
